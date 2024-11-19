@@ -4,6 +4,7 @@ let arrayUser = []
 class Usuario {
     constructor(){
 
+        this.id = null
         this.name = null
         this.email = null
         this.senha = null
@@ -15,7 +16,7 @@ class Usuario {
         }
     }
 
-    criarUsuario(nome, login, senho, tipo){
+    criarUsuario(){
 
     }
 
@@ -25,22 +26,32 @@ class Usuario {
 
 
 
+
+
 }
 
 class UsuarioCliente extends Usuario {
 
-    constructor(){
+    constructor(nome, email, senha, tipo){
         super()
+
+        this.nome = nome
+        this.email = email
+        this.senha = senha
+        this.tipo = tipo
+
+        this.criarUsuario(this.nome, this.email, this.senha, this.tipo)
         
     }
 
-    criarUsuario(nome, email, senha){
-        
+    static criarUsuario(nome, email, senha, tipo){
+    
+
         const UserTemp = {
-            nome:nome,
-            email:email,
-            senha:senha,
-            tipo:"1"
+            nome:this.nome,
+            email:this.email,
+            senha:this.senha,
+            tipo:this.tipo
         }
 
         arrayUser.push(UserTemp)
@@ -57,18 +68,26 @@ class UsuarioCliente extends Usuario {
 
 class UsuarioColaborador extends Usuario {
 
-    constructor(){
+    constructor(nome, email, senha, tipo){
         super()
+
+        this.nome = nome
+        this.email = email
+        this.senha = senha
+        this.tipo = tipo
+
+        this.criarUsuario(this.nome, this.email, this.senha, this.tipo)
         
     }
 
-    criarUsuario(nome, email, senha){
+    static criarUsuario(nome, email, senha, tipo){
 
+       
         const UserTemp = {
-            nome:nome,
-            email:email,
-            senha:senha,
-            tipo:"2"
+            nome:this.nome,
+            email:this.email,
+            senha:this.senha,
+            tipo:this.tipo
         }
 
         arrayUser.push(UserTemp)
@@ -84,25 +103,33 @@ class UsuarioColaborador extends Usuario {
 
 class UsuarioADM extends Usuario {
 
-    constructor(){
+    constructor(nome, email, senha, tipo){
         super()
+
+        this.nome = nome
+        this.email = email
+        this.senha = senha
+        this.tipo = tipo
+
+
+        this.criarUsuario(this.nome, this.email, this.senha, this.tipo)
         
     }
 
-    criarUsuario(nome, email, senha){
+     static criarUsuario(nome, email, senha, tipo){
 
+        
         const UserTemp = {
-            nome:nome,
-            email:email,
-            senha:senha,
-            tipo:"3"
+            nome:this.nome,
+            email:this.email,
+            senha:this.senha,
+            tipo:this.tipo
         }
 
         arrayUser.push(UserTemp)
 
     }
 
-    
 
     tipoUsuario(){
         return {tipo:this.tipo}
@@ -111,16 +138,16 @@ class UsuarioADM extends Usuario {
 
 class Fabrica_Usuario {
 
-    criarTipoUser(tipo){
+    criarTipoUser(nome, email, senha, tipo){
         if(tipo == '1'){
-            return new UsuarioCliente()
+            return new UsuarioCliente(nome, email, senha, tipo)
         }else
         if(tipo == '2'){
-            return new UsuarioColaborador()
+            return new UsuarioColaborador(nome, email, senha, tipo)
         }
         else
         if(tipo == '3'){
-            return new UsuarioADM()
+            return new UsuarioADM(nome, email, senha, tipo)
         }
     }
 
@@ -151,7 +178,19 @@ class Autenticar{
     }
 
     
-    
 }
+
+class GerencarUsuarios{
+    constructor(){}
+
+    alterarUsuario(){
+
+    }
+
+    excluirUsuaro(){
+
+    }
+}
+
 
 module.exports = {Fabrica_Usuario, Autenticar}

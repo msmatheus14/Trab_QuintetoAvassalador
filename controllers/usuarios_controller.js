@@ -8,10 +8,10 @@ const criarUsuario = function(req, res) {
 
     const {nome, email, senha, tipo} = req.body
 
-    const user = fabrica_user.criarTipoUser(tipo)
-    user.criarUsuario()
-    
+    let user = fabrica_user.criarTipoUser(nome, email, senha, tipo)
+    res.status(200).send('Usuario Criado com Sucesso!')
 
+    
 
 }
 
