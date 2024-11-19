@@ -1,3 +1,10 @@
+//Banco de Dados db4free
+ //Nome do Banco: qunteto_trum
+ //Nome do Usuário: quinteto_adm
+ //Senha do Banco: quinteto
+
+
+const mysql = require ('mysql')
 
 let arrayUser = []
 
@@ -23,9 +30,6 @@ class Usuario {
     tipoUsuario(){
         
     }
-
-
-
 
 
 }
@@ -180,8 +184,19 @@ class Autenticar{
     
 }
 
+//Adiconar Esse crud alterações no banco de dados
+
 class GerencarUsuarios{
+
+
     constructor(){}
+
+    consultarUsuario(){
+
+    }
+    adicionarUsuario(){
+
+    }
 
     alterarUsuario(){
 
@@ -189,6 +204,18 @@ class GerencarUsuarios{
 
     excluirUsuaro(){
 
+    }
+
+    static realizarConexao(){
+
+        const connection = mysql.createConnection({
+
+            host: 'db4free.net', 
+            user: 'quinteto_adm',
+            password: 'quinteto', 
+            database: 'qunteto_trum'
+
+          })
     }
 }
 
