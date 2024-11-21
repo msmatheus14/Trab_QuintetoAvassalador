@@ -1,4 +1,4 @@
-const {GerenciarUsuarios} = require('../models/model_user_crud')
+const {GerenciarUsuarios} = require('./crud/model_user_crud')
 
 
 class Usuario {
@@ -12,6 +12,7 @@ class Usuario {
         this.tipo = null
 
         if(new.target === Usuario){
+
             throw new Error("Classe Abstrata, não pode ser instanciada.");
             
         }
@@ -24,7 +25,6 @@ class Usuario {
     tipoUsuario(){
         
     }
-
 
 }
 
@@ -48,7 +48,7 @@ class UsuarioCliente extends Usuario {
         const gerenciarBanco = new GerenciarUsuarios
 
         const userTemp = gerenciarBanco.adicionarUsuario(this.nome, this.login, this.senha, this.tipo)
-
+        
         return userTemp
 
     }
@@ -86,7 +86,7 @@ class UsuarioColaborador extends Usuario {
     }
 
     tipoUsuario(){
-        
+
         return {tipo:this.tipo}
     }
     
@@ -95,6 +95,7 @@ class UsuarioColaborador extends Usuario {
 class UsuarioADM extends Usuario {
 
     constructor(nome, login, senha, tipo){
+
         super()
 
         this.nome = nome
@@ -119,6 +120,7 @@ class UsuarioADM extends Usuario {
 
 
     tipoUsuario(){
+
         return {tipo:this.tipo}
     }
 }
@@ -126,20 +128,23 @@ class UsuarioADM extends Usuario {
 class Fabrica_Usuario {
 
     criarTipoUser(nome, login, senha, tipo){
+
         if(tipo == '1'){
+
             return new UsuarioCliente(nome, login, senha, tipo)
             
         }else
         if(tipo == '2'){
+
             return new UsuarioColaborador(nome, login, senha, tipo)
         }
         else
         if(tipo == '3'){
+
             return new UsuarioADM(nome, login, senha, tipo)
         }
     }
 
 }
-
 
 module.exports = {Fabrica_Usuario}

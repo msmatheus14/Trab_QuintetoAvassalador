@@ -1,12 +1,13 @@
 
 const mysql = require('mysql2')
+let array_usuarios = []
 
 class GerenciarUsuarios{
 
     constructor(){
 
         this.connection = null
-        this.usuarios = []
+        
         
     }
 
@@ -32,8 +33,7 @@ class GerenciarUsuarios{
             });
 
             this.fecharConexao()
-
-
+            
             //Corrigir validação
             return {
                 status: true,
@@ -113,10 +113,10 @@ class GerenciarUsuarios{
             
             const sql = 'SELECT * FROM usuario';
 
-            const [results] = await this.connection.promise().query(sql);
+            let [results] = await this.connection.promise().query(sql);
     
             
-            this.usuarios = results.map(x => ({
+            results = results.map(x => ({
 
                 id: x.id, 
                 nome: x.nome,
@@ -125,8 +125,10 @@ class GerenciarUsuarios{
                 tipo: x.tipo
 
             }));
-    
+
+            this.gravar(results)
             console.log('Usuários carregados com sucesso!');
+            
     
         } catch (err) {
 
@@ -135,11 +137,30 @@ class GerenciarUsuarios{
         } finally {
 
             this.fecharConexao(); 
+            
         }
+
+    }
+
+    gravar(array){
+
+        array_usuarios = array
+        console.log(array_usuarios)
+        
+    }
+
+    getAllUsers(){
+        
+        this.carregarUsuarios()
+        return array_usuarios
     }
 
     
+
+    
 }
+
+
 
 
 module.exports = {GerenciarUsuarios}
