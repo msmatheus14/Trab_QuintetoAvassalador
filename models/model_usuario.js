@@ -1,12 +1,5 @@
-//Banco de Dados db4free
- //Nome do Banco: quinteto_trum
- //Nome do Usuário: quinteto_adm
- //Senha do Banco: quinteto
+const {GerenciarUsuarios} = require('../models/model_user_crud')
 
-
-const mysql = require ('mysql')
-
-let arrayUser = []
 
 class Usuario {
 
@@ -14,7 +7,7 @@ class Usuario {
 
         this.id = null
         this.nome = null
-        this.email = null
+        this.login = null
         this.senha = null
         this.tipo = null
 
@@ -37,36 +30,30 @@ class Usuario {
 
 class UsuarioCliente extends Usuario {
 
-    constructor(nome, email, senha, tipo){
+    constructor(nome, login, senha, tipo){
         super()
 
-
         this.nome = nome
-        this.email = email
+        this.login = login
         this.senha = senha
         this.tipo = tipo
 
-       const user =  this.criarUsuario(this.nome, this.email, this.senha, this.tipo)
-        
-        arrayUser.push(user)
+       const user = this.criarUsuario(this.nome, this.login, this.senha, this.tipo)
+    
+       return user
     }
 
-    criarUsuario(nome, email, senha, tipo){
+    criarUsuario(nome, login, senha, tipo){
     
+        const gerenciarBanco = new GerenciarUsuarios
 
-        const UserTemp = {
-            nome:this.nome,
-            email:this.email,
-            senha:this.senha,
-            tipo:this.tipo
-        }
+        const userTemp = gerenciarBanco.adicionarUsuario(this.nome, this.login, this.senha, this.tipo)
 
-        return UserTemp
+        return userTemp
 
     }
 
     
-
     tipoUsuario(){
 
         return {tipo:this.tipo}
@@ -75,35 +62,31 @@ class UsuarioCliente extends Usuario {
 
 class UsuarioColaborador extends Usuario {
 
-    constructor(nome, email, senha, tipo){
+    constructor(nome, login, senha, tipo){
         super()
 
-
         this.nome = nome
-        this.email = email
+        this.login = login
         this.senha = senha
         this.tipo = tipo
 
-       const user =  this.criarUsuario(this.nome, this.email, this.senha, this.tipo)
-        
-        arrayUser.push(user)
+       const user = this.criarUsuario(this.nome, this.login, this.senha, this.tipo)
+    
+       return user
     }
 
-    criarUsuario(nome, email, senha, tipo){
+    criarUsuario(nome, login, senha, tipo){
     
+        const gerenciarBanco = new GerenciarUsuarios
 
-        const UserTemp = {
-            nome:this.nome,
-            email:this.email,
-            senha:this.senha,
-            tipo:this.tipo
-        }
+        const userTemp = gerenciarBanco.adicionarUsuario(this.nome, this.login, this.senha, this.tipo)
 
-        return UserTemp
+        return userTemp
 
     }
 
     tipoUsuario(){
+        
         return {tipo:this.tipo}
     }
     
@@ -111,31 +94,26 @@ class UsuarioColaborador extends Usuario {
 
 class UsuarioADM extends Usuario {
 
-    constructor(nome, email, senha, tipo){
+    constructor(nome, login, senha, tipo){
         super()
 
-
         this.nome = nome
-        this.email = email
+        this.login = login
         this.senha = senha
         this.tipo = tipo
 
-       const user =  this.criarUsuario(this.nome, this.email, this.senha, this.tipo)
-        
-        arrayUser.push(user)
+       const user = this.criarUsuario(this.nome, this.login, this.senha, this.tipo)
+    
+       return user
     }
 
-    criarUsuario(nome, email, senha, tipo){
+    criarUsuario(nome, login, senha, tipo){
     
+        const gerenciarBanco = new GerenciarUsuarios
 
-        const UserTemp = {
-            nome:this.nome,
-            email:this.email,
-            senha:this.senha,
-            tipo:this.tipo
-        }
+        const userTemp = gerenciarBanco.adicionarUsuario(this.nome, this.login, this.senha, this.tipo)
 
-        return UserTemp
+        return userTemp
 
     }
 
@@ -147,98 +125,21 @@ class UsuarioADM extends Usuario {
 
 class Fabrica_Usuario {
 
-    criarTipoUser(nome, email, senha, tipo){
+    criarTipoUser(nome, login, senha, tipo){
         if(tipo == '1'){
-            return new UsuarioCliente(nome, email, senha, tipo)
+            return new UsuarioCliente(nome, login, senha, tipo)
             
         }else
         if(tipo == '2'){
-            return new UsuarioColaborador(nome, email, senha, tipo)
+            return new UsuarioColaborador(nome, login, senha, tipo)
         }
         else
         if(tipo == '3'){
-            return new UsuarioADM(nome, email, senha, tipo)
+            return new UsuarioADM(nome, login, senha, tipo)
         }
     }
 
-    
-}
-
-class Autenticar{
-    constructor(email, senha){
-
-        return autenticar(email, senha)
-
-    }
-
-    static autenticar(email, senha){
-        
-        let autenticar = false
-
-        arrayUser.map(n => {
-            
-            if(n.email == email){
-                if(n.senha == senha){
-                    autenticar = true
-                }
-            }
-        })
-
-        return autenticar
-    }
-
-    
 }
 
 
-class Reserva {
-
-}
-
-
-class Hotel {
-
-    constructor(nome, endereco, valor){
-
-    }
-
-}
-
-//Adiconar Esse crud alterações no banco de dados
-
-class GerenciarUsuarios{
-
-
-    constructor(){
-
-        const connection = mysql.createConnection({
-
-            host: 'db4free.net', 
-            user: 'quinteto_adm',
-            password: 'quinteto', 
-            database: 'qunteto_trum'
-
-          })
-    }
-
-    consultarUsuario(){
-        
-        
-    }
-    adicionarUsuario(){
-
-    }
-
-    alterarUsuario(){
-
-    }
-
-    excluirUsuaro(){
-
-    }
-
-    
-}
-
-
-module.exports = {Fabrica_Usuario, Autenticar, GerenciarUsuarios}
+module.exports = {Fabrica_Usuario}
