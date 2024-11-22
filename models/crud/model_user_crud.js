@@ -11,9 +11,30 @@ class GerenciarUsuarios{
         
     }
 
-    consultarUsuario(){
+    consultarUsuario(nome) {
         
-        
+        this.abrirconexao()
+
+        return new Promise((resolve, reject) => {
+            
+
+            const sql = 'SELECT * FROM usuario where nome = ?';
+    
+            this.connection.query(sql, [nome], (err, results) => {
+
+                if (err) {
+
+                    console.log('Erro ao consultar usuário:', err.message);
+
+                    reject(err);
+
+                } else {
+                   
+                    resolve(results);
+                    
+                }
+            });
+        });
     }
 
     adicionarUsuario(nome, login, senha, tipo){
@@ -21,7 +42,7 @@ class GerenciarUsuarios{
 
         this.abrirconexao()
 
-            const sql = 'INSERT INTO usuario (nome, login, senha, tipo) VALUES (?, ?, ?, ?)';
+            const sql = 'insert into usuario (nome, login, senha, tipo) values (?, ?, ?, ?)';
 
             this.connection.query(sql, [nome, login, senha, tipo], (err, results) => {
 
@@ -34,10 +55,11 @@ class GerenciarUsuarios{
 
             this.fecharConexao()
             
-            //Corrigir validação
+            //RealizarValidação realizar confirmação se usuário foi criado corretamente
             return {
-                status: true,
-                user: { nome, login, senha, tipo }
+
+                nome:nome, login:login, senha:senha, tipo:tipo
+                
             }
 
 
@@ -47,7 +69,9 @@ class GerenciarUsuarios{
 
 
 
-    alterarUsuario(){
+    alterarUsuario(nome){
+
+
 
     }
 
@@ -111,9 +135,9 @@ class GerenciarUsuarios{
 
             this.abrirconexao(); 
             
-            const sql = 'SELECT * FROM usuario';
+            const sql = 'SELECT * FROM usuario'
 
-            let [results] = await this.connection.promise().query(sql);
+            let [results] = await this.connection.promise().query(sql)
     
             
             results = results.map(x => ({
@@ -127,12 +151,12 @@ class GerenciarUsuarios{
             }));
 
             this.gravar(results)
-            console.log('Usuários carregados com sucesso!');
+            console.log('Usuários carregados com sucesso!')
             
     
         } catch (err) {
 
-            console.error('Erro ao carregar usuários:', err.message);
+            console.error('Erro ao carregar usuários:', err.message)
             
         } finally {
 
@@ -145,7 +169,6 @@ class GerenciarUsuarios{
     gravar(array){
 
         array_usuarios = array
-        console.log(array_usuarios)
         
     }
 
