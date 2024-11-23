@@ -220,9 +220,27 @@ class GerenciarUsuarios{
         return array_usuarios
     }
 
+    async autenticarUser(login, senha) {
 
-
+            this.abrirconexao();
+        
+            
+            const sql = 'SELECT id, nome, login FROM usuario WHERE login = ? AND senha = ?';
+            const [results] = await this.connection.promise().query(sql, [login, senha]);
     
+            
+            if (results.length === 0) {
+
+                return { autenticado: false };
+
+            }else{
+
+                return { autenticado:true };
+            }
+    
+
+        
+    }
 
     
 }

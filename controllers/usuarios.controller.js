@@ -71,11 +71,11 @@ const autenticarUser = function(req, res) {
 const consultarUsuario = async function (req, res) {
 
     try {
-        const { nome } = req.params; 
+        const { nome } = req.params
 
-        const gerenciarUser = new GerenciarUsuarios(); 
+        const gerenciarUser = new GerenciarUsuarios()
 
-        const user = await gerenciarUser.consultarUsuario(nome);
+        const user = await gerenciarUser.consultarUsuario(nome)
 
         console.log(user); 
 
@@ -83,13 +83,25 @@ const consultarUsuario = async function (req, res) {
 
     } catch (err) {
 
-        console.error('Erro ao consultar usuário:', err.message);
+        console.error('Erro ao consultar usuário:', err.message)
 
-        res.status(500).json({ error: 'Erro ao consultar usuário.' }); 
+        res.status(500).json({ error: 'Erro ao consultar usuário.' })
 
     }
-};
+}
+
+const autenticarUsuario = async function (req, res) {
+
+    
+    const gerenciarUser = new GerenciarUsuarios()
+    const {login, senha} = req.body
+
+    const validacao = await gerenciarUser.autenticarUser(login, senha)
+
+    res.json(validacao)
+    
+}
 
 
-module.exports = {criarUsuario, autenticarUser, returnAllUser, consultarUsuario, alterarTipoUser, excluirUser, bucarHotelUsuario}
+module.exports = {criarUsuario, autenticarUser, returnAllUser, consultarUsuario, alterarTipoUser, excluirUser, bucarHotelUsuario, autenticarUsuario}
 
