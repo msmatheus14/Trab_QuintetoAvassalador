@@ -1,4 +1,4 @@
-const {GerenciarUsuarios} = require('./crud/model_user_crud')
+const {GerenciarUsuarios} = require('./banco.usuario')
 
 class Usuario {
 

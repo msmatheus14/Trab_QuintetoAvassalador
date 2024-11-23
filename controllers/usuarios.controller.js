@@ -1,6 +1,6 @@
-const {Fabrica_Usuario}= require('../models/model_usuario')
-const {GerenciarUsuarios} = require('../models/crud/model_user_crud')
-const {GerenciarHotel} = require('../models/crud/model_hotel_crud')
+const {Fabrica_Usuario}= require('../models/usuario.model')
+const {GerenciarUsuarios} = require('../models/banco.usuario')
+const {GerenciarHotel} = require('../models/banco.hotel')
 
 
 const criarUsuario = function(req, res) {
@@ -19,9 +19,12 @@ const criarUsuario = function(req, res) {
 const bucarHotelUsuario = async function(req, res) {
 
     const gerenciarHotel = new GerenciarHotel
-    const gerenciarUser = new GerenciarUsuarios
-    const {nome, tipo} = req.body
-    
+    const {id} = req.body
+
+    const hotels = await gerenciarHotel.consultarUserHotel(id)
+    console.log(hotels)
+
+    res.status(200).json(hotels)
 
 }
 
@@ -88,5 +91,5 @@ const consultarUsuario = async function (req, res) {
 };
 
 
-module.exports = {criarUsuario, autenticarUser, returnAllUser, consultarUsuario, alterarTipoUser, excluirUser}
+module.exports = {criarUsuario, autenticarUser, returnAllUser, consultarUsuario, alterarTipoUser, excluirUser, bucarHotelUsuario}
 

@@ -109,8 +109,6 @@ class GerenciarHotel {
 
         });
 
-        
-
     }
 
     fecharConexao(){
@@ -183,14 +181,7 @@ class GerenciarHotel {
         return array_hotel
     }
 
-    
 
-    
 }
 
-
-
-
 module.exports = {GerenciarHotel}
-
-
