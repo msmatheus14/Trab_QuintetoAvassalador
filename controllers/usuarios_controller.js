@@ -15,21 +15,33 @@ const criarUsuario = function(req, res) {
 
 }
 
-const alterarTipoUser = function (req, res) {
+const alterarTipoUser =  async function (req, res) {
     
-    const fabrica = new Fabrica_Usuario
     const gerenciarUser = new GerenciarUsuarios
+    const {nome, tipo} = req.body
 
-    const array_objeto_user = []
+    let userTemp = await gerenciarUser.consultarUsuario(nome)
+    
+    if(!userTemp) {
+        console.log('Usuário não encontrado guerreiro!')
+    }else
+    {
+        gerenciarUser.alterarUsuario(tipo, userTemp[0].id)
+        res.status(200).json(userTemp[0])
+    }
 
-    let userTemp = gerenciarUser.getAllUsers()
-    userTemp.map((x) => {
-        
-        array_objeto_user.push(fabrica.criarTipoUser(x.nome, x.login, x.senha, x.tipo))
-    })
 
+}
 
+const excluirUser = async function (req, res){
 
+    
+    const gerenciarUser = new GerenciarUsuarios
+    const {nome, login} = req.body
+
+    const validacao = await gerenciarUser.excluirUsuario(nome, login)
+    res.status(200).json(validacao)
+    
 }
 
 const returnAllUser = function(req, res) {
@@ -50,7 +62,6 @@ const consultarUsuario = async function (req, res) {
 
         const gerenciarUser = new GerenciarUsuarios(); 
 
-        
         const user = await gerenciarUser.consultarUsuario(nome);
 
         console.log(user); 
@@ -67,5 +78,5 @@ const consultarUsuario = async function (req, res) {
 };
 
 
-module.exports = {criarUsuario, autenticarUser, returnAllUser, consultarUsuario}
+module.exports = {criarUsuario, autenticarUser, returnAllUser, consultarUsuario, alterarTipoUser, excluirUser}
 

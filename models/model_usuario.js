@@ -1,6 +1,5 @@
 const {GerenciarUsuarios} = require('./crud/model_user_crud')
 
-
 class Usuario {
 
     constructor(){

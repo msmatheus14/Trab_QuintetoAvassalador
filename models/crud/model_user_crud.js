@@ -11,8 +11,8 @@ class GerenciarUsuarios{
         
     }
 
-    consultarUsuario(nome) {
-        
+    async consultarUsuario(nome) {
+
         this.abrirconexao()
 
         return new Promise((resolve, reject) => {
@@ -37,7 +37,7 @@ class GerenciarUsuarios{
         });
     }
 
-    adicionarUsuario(nome, login, senha, tipo){
+    async adicionarUsuario(nome, login, senha, tipo){
 
 
         this.abrirconexao()
@@ -67,17 +67,57 @@ class GerenciarUsuarios{
 
     }
 
+    async alterarUsuario(tipo, id){
 
+        this.abrirconexao()
 
-    alterarUsuario(nome){
+        const sql = 'update usuario set tipo = ? where id = ?'
 
+        this.connection.query(sql, [tipo, id], (err, results) => {
+            if(err){
+                console.log('Erro ao realizar update:', err.message)
+            }else
+            {
+                console.log('Atualizado com sucesso!')
+            }
+        })
+
+        this.fecharConexao()
 
 
     }
 
-    excluirUsuaro(){
+    async excluirUsuario(nome, login) {
+
+
+        this.abrirconexao()
+
+        const sql = 'DELETE FROM usuario WHERE nome = ? AND login = ?';
+        return new Promise((resolve, reject) => {
+
+            this.connection.query(sql, [nome, login], (err, results) => {
+
+                if (err) {
+
+                    reject(err); // Retorna erro em caso de falha
+
+                } else if (results.affectedRows === 0) {
+
+                    resolve({ message: "Nenhum usuário encontrado com esses critérios." });
+
+                } else {
+
+                    resolve({ message: "Usuário excluído com sucesso." });
+                }
+            });
+
+        }).finally(() => {
+
+            this.fecharConexao();
+        });
 
     }
+
 
     abrirconexao(){
 
