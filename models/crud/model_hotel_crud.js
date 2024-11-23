@@ -1,30 +1,22 @@
-
 const mysql = require('mysql2')
-let array_usuarios = []
+let array_hotel = []
 
-class GerenciarUsuarios{
+class GerenciarHotel {
 
-    constructor(){
-
-        this.connection = null
-        
-        
-    }
-
-    async consultarUsuario(nome) {
+    async consultarHotel(nome_hotel) {
 
         this.abrirconexao()
 
         return new Promise((resolve, reject) => {
             
 
-            const sql = 'SELECT * FROM usuario where nome = ?';
+            const sql = 'SELECT * FROM hotel where nome_hotel = ?';
     
             this.connection.query(sql, [nome], (err, results) => {
 
                 if (err) {
 
-                    console.log('Erro ao consultar usuário:', err.message);
+                    console.log('Erro ao consultar hotel:', err.message);
 
                     reject(err);
 
@@ -37,18 +29,46 @@ class GerenciarUsuarios{
         });
     }
 
-    async adicionarUsuario(nome, login, senha, tipo){
+    async consultarUserHotel(id_dono) {
+
+        this.abrirconexao()
+
+        return new Promise((resolve, reject) => {
+            
+
+            const sql = 'SELECT * FROM hotel where id_dono = ?';
+    
+            this.connection.query(sql, [id_dono], (err, results) => {
+
+                if (err) {
+
+                    console.log('Erro ao consultar hootel vinculado a usuários:', err.message);
+
+                    reject(err);
+
+                } else {
+                   
+                    resolve(results);
+                    
+                }
+            });
+        });
+    }
+
+
+
+    async adicionar(nome, id_dono, url_img){
 
 
         this.abrirconexao()
 
-            const sql = 'insert into usuario (nome, login, senha, tipo) values (?, ?, ?, ?)';
+            const sql = 'insert into usuario (nome_hotel, id_dono, url_img) values (?, ?, ?, ?)';
 
-            this.connection.query(sql, [nome, login, senha, tipo], (err, results) => {
+            this.connection.query(sql, [nome, id_dono, url_img], (err, results) => {
 
                 if (err) {
 
-                    console.log('Erro ao adicionar usuário', err.message)
+                    console.log('Erro ao adicionar hotel', err.message)
                 }
                 
             });
@@ -63,61 +83,7 @@ class GerenciarUsuarios{
             }
 
 
-        
-
     }
-
-    async alterarUsuario(tipo, id){
-
-        this.abrirconexao()
-
-        const sql = 'update usuario set tipo = ? where id = ?'
-
-        this.connection.query(sql, [tipo, id], (err, results) => {
-            if(err){
-                console.log('Erro ao realizar update:', err.message)
-            }else
-            {
-                console.log('Atualizado com sucesso!')
-            }
-        })
-
-        this.fecharConexao()
-
-
-    }
-
-    async excluirUsuario(nome, login) {
-
-
-        this.abrirconexao()
-
-        const sql = 'DELETE FROM usuario WHERE nome = ? AND login = ?';
-        return new Promise((resolve, reject) => {
-
-            this.connection.query(sql, [nome, login], (err, results) => {
-
-                if (err) {
-
-                    reject(err); // Retorna erro em caso de falha
-
-                } else if (results.affectedRows === 0) {
-
-                    resolve({ message: "Nenhum usuário encontrado com esses critérios." });
-
-                } else {
-
-                    resolve({ message: "Usuário excluído com sucesso." });
-                }
-            });
-
-        }).finally(() => {
-
-            this.fecharConexao();
-        });
-
-    }
-
 
     abrirconexao(){
 
@@ -169,34 +135,33 @@ class GerenciarUsuarios{
         }
     }
 
-    async carregarUsuarios() {
+    async carregarHotel() {
 
         try {
 
             this.abrirconexao(); 
             
-            const sql = 'SELECT * FROM usuario'
+            const sql = 'SELECT * FROM  hotel'
 
             let [results] = await this.connection.promise().query(sql)
     
             
             results = results.map(x => ({
 
-                id: x.id, 
-                nome: x.nome,
-                login: x.login,
-                senha: x.senha,
-                tipo: x.tipo
-
+                id_hotel: x.id_hotel, 
+                nome_hotel: x.nome_hotel,
+                id_dono:x.id_dono,
+                url_img:x.url_img
+                
             }));
 
             this.gravar(results)
-            console.log('Usuários carregados com sucesso!')
+            console.log('Hotels carregados com sucesso!')
             
     
         } catch (err) {
 
-            console.error('Erro ao carregar usuários:', err.message)
+            console.error('Erro ao carregar Hotels:', err.message)
             
         } finally {
 
@@ -208,14 +173,14 @@ class GerenciarUsuarios{
 
     gravar(array){
 
-        array_usuarios = array
+        array_hotel = array
         
     }
 
     getAllUsers(){
         
         this.carregarUsuarios()
-        return array_usuarios
+        return array_hotel
     }
 
     
@@ -226,4 +191,6 @@ class GerenciarUsuarios{
 
 
 
-module.exports = {GerenciarUsuarios}
+module.exports = {GerenciarHotel}
+
+

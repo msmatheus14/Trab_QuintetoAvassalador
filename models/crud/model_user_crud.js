@@ -63,8 +63,6 @@ class GerenciarUsuarios{
             }
 
 
-        
-
     }
 
     async alterarUsuario(tipo, id){
@@ -87,15 +85,16 @@ class GerenciarUsuarios{
 
     }
 
-    async excluirUsuario(nome, login) {
+    async excluirUsuario(id) {
 
 
         this.abrirconexao()
 
-        const sql = 'DELETE FROM usuario WHERE nome = ? AND login = ?';
+        const sql = 'DELETE FROM usuario WHERE id = ?'
+
         return new Promise((resolve, reject) => {
 
-            this.connection.query(sql, [nome, login], (err, results) => {
+            this.connection.query(sql, [id], (err, results) => {
 
                 if (err) {
 
@@ -117,6 +116,8 @@ class GerenciarUsuarios{
         });
 
     }
+
+
 
 
     abrirconexao(){
@@ -169,6 +170,7 @@ class GerenciarUsuarios{
         }
     }
 
+
     async carregarUsuarios() {
 
         try {
@@ -217,6 +219,8 @@ class GerenciarUsuarios{
         this.carregarUsuarios()
         return array_usuarios
     }
+
+
 
     
 

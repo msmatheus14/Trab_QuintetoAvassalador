@@ -1,5 +1,6 @@
 const {Fabrica_Usuario}= require('../models/model_usuario')
 const {GerenciarUsuarios} = require('../models/crud/model_user_crud')
+const {GerenciarHotel} = require('../models/crud/model_hotel_crud')
 
 
 const criarUsuario = function(req, res) {
@@ -12,6 +13,15 @@ const criarUsuario = function(req, res) {
     
     const resp = fabrica.criarTipoUser(nome, login, senha, tipo)
     res.status(200).json(resp)
+
+}
+
+const bucarHotelUsuario = async function(req, res) {
+
+    const gerenciarHotel = new GerenciarHotel
+    const gerenciarUser = new GerenciarUsuarios
+    const {nome, tipo} = req.body
+    
 
 }
 
@@ -37,9 +47,9 @@ const excluirUser = async function (req, res){
 
     
     const gerenciarUser = new GerenciarUsuarios
-    const {nome, login} = req.body
+    const {id} = req.body
 
-    const validacao = await gerenciarUser.excluirUsuario(nome, login)
+    const validacao = await gerenciarUser.excluirUsuario(id)
     res.status(200).json(validacao)
     
 }
