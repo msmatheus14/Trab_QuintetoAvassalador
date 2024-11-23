@@ -19,7 +19,7 @@ const criarUsuario = function(req, res) {
 const bucarHotelUsuario = async function(req, res) {
 
     const gerenciarHotel = new GerenciarHotel
-    const {id} = req.params
+    const {id} = req.body
 
     const hotels = await gerenciarHotel.consultarUserHotel(id)
     console.log(hotels)

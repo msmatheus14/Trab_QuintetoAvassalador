@@ -2,9 +2,11 @@ const express = require('express')
 const app = express()
 app.use(express.json())
 
-const criarUsuario = require('./routes/rota_users')
+const usuarios = require('./routes/rota_users')
+const hoteis = require('./routes/rotal_hotel')
 
-app.use('/', criarUsuario)
+app.use('/', usuarios)
+app.use('/', hoteis)
 
 app.listen(3000, () => {
     

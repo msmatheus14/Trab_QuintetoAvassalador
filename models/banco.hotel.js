@@ -3,31 +3,6 @@ let array_hotel = []
 
 class GerenciarHotel {
 
-    async consultarHotel(nome_hotel) {
-
-        this.abrirconexao()
-
-        return new Promise((resolve, reject) => {
-            
-
-            const sql = 'SELECT * FROM hotel where nome_hotel = ?';
-    
-            this.connection.query(sql, [nome], (err, results) => {
-
-                if (err) {
-
-                    console.log('Erro ao consultar hotel:', err.message);
-
-                    reject(err);
-
-                } else {
-                   
-                    resolve(results);
-                    
-                }
-            });
-        });
-    }
 
     async consultarUserHotel(id_dono) {
 
@@ -57,32 +32,41 @@ class GerenciarHotel {
 
 
 
-    async adicionar(nome, id_dono, url_img){
+    async adicionar(nome_hotel, id_dono, url_img) {
 
+        this.abrirconexao();
+    
+        return new Promise((resolve, reject) => {
 
-        this.abrirconexao()
-
-            const sql = 'insert into usuario (nome_hotel, id_dono, url_img) values (?, ?, ?, ?)';
-
-            this.connection.query(sql, [nome, id_dono, url_img], (err, results) => {
+            const sql = 'INSERT INTO hotel (nome_hotel, id_dono, url_img) VALUES (?, ?, ?)'
+    
+            this.connection.query(sql, [nome_hotel, id_dono, url_img], (err, results) => {
 
                 if (err) {
 
-                    console.log('Erro ao adicionar hotel', err.message)
+                    console.log('Erro ao adicionar hotel:', err.message);
+
+                    reject(err); 
+
+                } else {
+
+                    console.log('Hotel adicionado com sucesso!');
+
+                    resolve({
+
+                        id_hotel: results.insertId, 
+                        nome_hotel:nome_hotel,
+                        id_dono:id_dono,
+                        url_img:url_img
+                    });
                 }
-                
             });
 
-            this.fecharConexao()
-            
-            //RealizarValidação realizar confirmação se usuário foi criado corretamente
-            return {
+        }).finally(() => {
 
-                nome:nome, login:login, senha:senha, tipo:tipo
-                
-            }
+            this.fecharConexao();
 
-
+        });
     }
 
     abrirconexao(){
@@ -175,9 +159,9 @@ class GerenciarHotel {
         
     }
 
-    getAllUsers(){
+    getAllhotel(){
         
-        this.carregarUsuarios()
+        this.carregarHotel()
         return array_hotel
     }
 
