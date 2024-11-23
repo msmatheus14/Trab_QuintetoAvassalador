@@ -64,9 +64,7 @@ const returnAllUser = function(req, res) {
     res.status(200).json(arrayUser)
 
 }
-const autenticarUser = function(req, res) {
-    const {email, senha} = req.body
-}
+
 
 const consultarUsuario = async function (req, res) {
 
