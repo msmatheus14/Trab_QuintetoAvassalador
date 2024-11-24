@@ -101,5 +101,5 @@ const autenticarUsuario = async function (req, res) {
 }
 
 
-module.exports = {criarUsuario, autenticarUser, returnAllUser, consultarUsuario, alterarTipoUser, excluirUser, bucarHotelUsuario, autenticarUsuario}
+module.exports = {criarUsuario, returnAllUser, consultarUsuario, alterarTipoUser, excluirUser, bucarHotelUsuario, autenticarUsuario}
 
