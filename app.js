@@ -3,8 +3,8 @@ const app = express()
 
 app.use(express.json())
 
-const usuarios = require('./routes/rota_users')
-const hoteis = require('./routes/rotal_hotel')
+const usuarios = require('./routes/rota.users')
+const hoteis = require('./routes/rotal.hotel')
 
 app.use('/', usuarios)
 app.use('/', hoteis)
