@@ -42,12 +42,12 @@ class UsuarioCliente extends Usuario {
        return user
     }
 
-    criarUsuario(nome, login, senha, tipo){
+    async criarUsuario(nome, login, senha, tipo){
     
         const gerenciarBanco = new GerenciarUsuarios
 
-        const userTemp = gerenciarBanco.adicionarUsuario(this.nome, this.login, this.senha, this.tipo)
-        
+        const userTemp = await gerenciarBanco.adicionarUsuario(this.nome, this.login, this.senha, this.tipo)
+        console.log('aqui', userTemp)
         return userTemp
 
     }

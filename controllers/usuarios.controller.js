@@ -3,15 +3,25 @@ const {GerenciarUsuarios} = require('../models/banco.usuario')
 const {GerenciarHotel} = require('../models/banco.hotel')
 
 
-const criarUsuario = function(req, res) {
+const criarUsuario =  async function(req, res) {
 
 
     const {nome, login, senha, tipo} = req.body
-    
+    const gerenciarUser = new GerenciarUsuarios
     const fabrica = new Fabrica_Usuario
     
-    const resp = fabrica.criarTipoUser(nome, login, senha, tipo)
-    res.status(200).json(resp)
+    const validacao =  await fabrica.criarTipoUser(nome, login, senha, tipo)
+    
+    if(validacao == true){
+        const userTemp =  await gerenciarUser.consultarUsuario(login)
+        res.status(200).json(userTemp)
+    }else
+    if(validacao == false) {
+
+        res.status(404).json({erro: "Não adicionado"})
+
+    }
+    
 
 }
 

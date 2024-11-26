@@ -57,26 +57,36 @@ class GerenciarUsuarios{
     }
 
     async adicionarUsuario(nome, login, senha, tipo){
+        
+
+        return new Promise((resolve, reject) => {
 
             const sql = 'insert into usuario (nome, login, senha, tipo) values (?, ?, ?, ?)'
 
             this.connection.query(sql, [nome, login, senha, tipo], (err, results) => {
 
-                if (err) {
+                if (err || results.affectedRows == 0) {
 
                     console.log('Erro ao adicionar usuário', err.message)
+                    resolve(false)
                 }
+                else
+                {
+                    resolve(true)
+                }
+                
+                
                 
             })
 
+
+        })
+            
+            
            
 
-            //RealizarValidação realizar confirmação se usuário foi criado corretamente
-            return {
-
-                nome:nome, login:login, senha:senha, tipo:tipo
-                
-            }
+            
+           
 
 
     }
