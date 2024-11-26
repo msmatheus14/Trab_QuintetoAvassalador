@@ -28,7 +28,7 @@ const criarUsuario =  async function(req, res) {
 const bucarHotelUsuario = async function(req, res) {
 
     const gerenciarHotel = new GerenciarHotel
-    const {id} = req.params.id
+    const {id} = req.params
 
     const hotels = await gerenciarHotel.consultarUserHotel(id)
     console.log(hotels)
@@ -71,13 +71,25 @@ const excluirUser = async function (req, res){
     
 }
 
-const returnAllUser = function(req, res) {
+ const returnAllUser = async function(req, res) {
 
     const gerenciarUser = new GerenciarUsuarios
-    let arrayUser = gerenciarUser.getAllUsers()
-    console.log(arrayUser)
-    res.status(200).json(arrayUser)
 
+    try {
+
+        let arrayUser = await gerenciarUser.carregarUsuarios()
+
+        if(arrayUser){
+
+            res.status(200).json(arrayUser)
+    
+        }
+
+    }
+    catch{
+        return false
+    }
+    
 }
 
 

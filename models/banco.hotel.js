@@ -50,7 +50,11 @@ class GerenciarHotel {
                     
                 }
             });
+
+            this.fecharConexao()
         });
+
+        
     }
 
 
@@ -85,7 +89,7 @@ class GerenciarHotel {
 
         }).finally(() => {
 
-            
+            this.fecharConexao()
 
         });
     }
@@ -148,7 +152,7 @@ class GerenciarHotel {
             
         } finally {
 
-             
+             this.fecharConexao()
             
         }
 

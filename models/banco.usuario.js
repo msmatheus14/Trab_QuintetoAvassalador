@@ -54,6 +54,8 @@ class GerenciarUsuarios{
                 }
             })
         })
+
+        this.fecharConexao()
     }
 
     async adicionarUsuario(nome, login, senha, tipo){
@@ -82,12 +84,7 @@ class GerenciarUsuarios{
 
         })
             
-            
-           
-
-            
-           
-
+        this.fecharConexao()
 
     }
 
@@ -117,6 +114,8 @@ class GerenciarUsuarios{
 
             console.log("Erro ao alterar o usuário")
         }
+
+        this.fecharConexao()
 
     }
 
@@ -148,6 +147,8 @@ class GerenciarUsuarios{
            
         })
 
+        this.fecharConexao()
+
     }
 
 
@@ -163,13 +164,13 @@ class GerenciarUsuarios{
 
                 } else {
 
-                    console.log('Conexão encerrada com sucesso!')
+                    return true
                 }
             })
 
         } else {
 
-            console.error('Conexão não encontrada.')
+            return false
         }
     }
 
@@ -178,49 +179,20 @@ class GerenciarUsuarios{
 
         try {
 
-             
-            
             const sql = 'SELECT * FROM usuario'
+        
+            const [results] = await this.connection.promise().query(sql);
 
-            let [results] = await this.connection.promise().query(sql)
-    
-            
-            results = results.map(x => ({
+            return results
 
-                id: x.id, 
-                nome: x.nome,
-                login: x.login,
-                senha: x.senha,
-                tipo: x.tipo
+        } catch (error) {
 
-            }))
-
-            this.gravar(results)
-            console.log('Usuários carregados com sucesso!')
-            
-    
-        } catch (err) {
-
-            console.error('Erro ao carregar usuários:', err.message)
-            
-        } finally {
-
-
+            return false
         }
-
     }
+    
 
-    gravar(array){
-
-        array_usuarios = array
-        
-    }
-
-    getAllUsers(){
-        
-        this.carregarUsuarios()
-        return array_usuarios
-    }
+    
 
     async autenticarUser(login, senha) {
 
@@ -239,6 +211,8 @@ class GerenciarUsuarios{
 
                 return { autenticado:true, usuario: results[0]}
             }
+
+            this.fecharConexao()
     
 
         
