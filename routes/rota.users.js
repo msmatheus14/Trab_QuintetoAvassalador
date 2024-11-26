@@ -15,7 +15,7 @@ route.get('/returnAllUsers', returnAllUser)
 route.get('/consultarUsuario', consultarUsuario)
 route.put ('/alterarTipoUsuario', alterarTipoUser)
 route.delete ('/excluirUser', excluirUser)
-route.get('/findUserHotel', bucarHotelUsuario)
+route.get('/findUserHotel/:id', bucarHotelUsuario)
 route.post('/autenticar', autenticarUsuario)
 
 module.exports = route
