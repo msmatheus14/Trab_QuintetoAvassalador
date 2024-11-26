@@ -31,7 +31,7 @@ const bucarHotelUsuario = async function(req, res) {
 const alterarTipoUser =  async function (req, res) {
     
     const gerenciarUser = new GerenciarUsuarios
-    const {nome, tipo} = req.params
+    const {nome, tipo} = req.body
 
     let userTemp = await gerenciarUser.consultarUsuario(nome)
     
@@ -50,7 +50,7 @@ const excluirUser = async function (req, res){
 
     
     const gerenciarUser = new GerenciarUsuarios
-    const {id} = req.params
+    const {id} = req.body
 
     const validacao = await gerenciarUser.excluirUsuario(id)
     res.status(200).json(validacao)
@@ -69,7 +69,7 @@ const returnAllUser = function(req, res) {
 const consultarUsuario = async function (req, res) {
 
     try {
-        const { nome } = req.params
+        const { nome } = req.body
 
         const gerenciarUser = new GerenciarUsuarios()
 
