@@ -4,10 +4,9 @@ const adicionarhotel = async function (req, res) {
 
     gerenciarhotel = new GerenciarHotel
 
-        const {nome, id_dono, url_img} = req.body
-        console.log(nome, id_dono, url_img)
+        const {nome, id_dono} = req.body
 
-        const resp = gerenciarhotel.adicionar(nome, id_dono, url_img)
+        const resp = gerenciarhotel.adicionar(nome, id_dono)
         res.status(200).json(resp)
     
 }

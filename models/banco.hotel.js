@@ -32,15 +32,15 @@ class GerenciarHotel {
 
 
 
-    async adicionar(nome_hotel, id_dono, url_img) {
+    async adicionar(nome_hotel, id_dono) {
 
         this.abrirconexao();
     
         return new Promise((resolve, reject) => {
 
-            const sql = 'INSERT INTO hotel (nome_hotel, id_dono, url_img) VALUES (?, ?, ?)'
+            const sql = 'INSERT INTO hotel (nome_hotel, id_dono) VALUES (?, ?)'
     
-            this.connection.query(sql, [nome_hotel, id_dono, url_img], (err, results) => {
+            this.connection.query(sql, [nome_hotel, id_dono], (err, results) => {
 
                 if (err) {
 
@@ -56,8 +56,7 @@ class GerenciarHotel {
 
                         id_hotel: results.insertId, 
                         nome_hotel:nome_hotel,
-                        id_dono:id_dono,
-                        url_img:url_img
+                        
                     });
                 }
             });
