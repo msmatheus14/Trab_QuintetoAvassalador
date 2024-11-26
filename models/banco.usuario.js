@@ -6,31 +6,50 @@ class GerenciarUsuarios{
 
     constructor(){
 
-        this.connection = null
-        
+        this.connection = mysql.createConnection({
+
+            host: 'mysql-quinteto-adm.alwaysdata.net', 
+            user: '386281',
+            password: 'quinteto_2024', 
+            database: 'quinteto-adm_3011'
+
+          })
+
+          this.connection.connect((err) => {
+
+            if (err) {
+
+                console.error('Erro ao conectar ao banco de dados:', err.stack)
+
+                
+            }
+
+        })
+
         
     }
 
     async consultarUsuario(login) {
 
-        this.abrirconexao()
-
         return new Promise((resolve, reject) => {
             
-
             const sql = 'SELECT * FROM usuario where login = ?'
     
             this.connection.query(sql, [login], (err, results) => {
 
-                if (err) {
+                if (err ) {
 
                     console.log('Erro ao consultar usuário:', err.message)
 
                     reject(err)
 
-                } else {
+                } else
+                if(results.length == 0) {
+                    console.log('Nenhum usuário encontrado')
+                }else
+                {
                    
-                    resolve(results)
+                    resolve(results[0])
                     
                 }
             })
@@ -38,9 +57,6 @@ class GerenciarUsuarios{
     }
 
     async adicionarUsuario(nome, login, senha, tipo){
-
-
-        this.abrirconexao()
 
             const sql = 'insert into usuario (nome, login, senha, tipo) values (?, ?, ?, ?)'
 
@@ -53,8 +69,8 @@ class GerenciarUsuarios{
                 
             })
 
-            this.fecharConexao()
-            
+           
+
             //RealizarValidação realizar confirmação se usuário foi criado corretamente
             return {
 
@@ -65,30 +81,38 @@ class GerenciarUsuarios{
 
     }
 
-    async alterarUsuario(tipo, id){
+    async alterarUsuario(tipo, login){
 
-        this.abrirconexao()
+        try{
 
-        const sql = 'update usuario set tipo = ? where id = ?'
+            return new Promise((resposta, reject) => {
+        
+                const sql = 'update usuario set tipo = ? where login = ?'
+        
+                this.connection.query(sql, [tipo, login], (err, results) => {
+                    
+                    if(err || results.affectedRows == 0){
+        
+                        resposta(false)
+        
+                    }else
+                    {   
+                        resposta(true)
+                    }
+                })
+                    
+                })
+            
+        } catch(erro){
 
-        this.connection.query(sql, [tipo, id], (err, results) => {
-            if(err){
-                console.log('Erro ao realizar update:', err.message)
-            }else
-            {
-                console.log('Atualizado com sucesso!')
-            }
-        })
-
-        this.fecharConexao()
-
+            console.log("Erro ao alterar o usuário")
+        }
 
     }
 
     async excluirUsuario(id) {
 
-        this.abrirconexao()
-
+    
         const sql = 'DELETE FROM usuario WHERE id = ?'
 
         return new Promise((resolve, reject) => {
@@ -111,41 +135,11 @@ class GerenciarUsuarios{
 
         }).finally(() => {
 
-            this.fecharConexao()
+           
         })
 
     }
 
-
-
-
-    abrirconexao(){
-
-        this.connection = mysql.createConnection({
-
-            host: 'mysql-quinteto-adm.alwaysdata.net', 
-            user: '386281',
-            password: 'quinteto_2024', 
-            database: 'quinteto-adm_3011'
-
-          })
-
-          this.connection.connect((err) => {
-
-            if (err) {
-
-                console.error('Erro ao conectar ao banco de dados:', err.stack)
-
-                return
-            }
-
-            console.log('Conexão estabelecida com sucesso. ID da conexão:', this.connection.threadId)
-
-        })
-
-        
-
-    }
 
     fecharConexao(){
 
@@ -174,7 +168,7 @@ class GerenciarUsuarios{
 
         try {
 
-            this.abrirconexao() 
+             
             
             const sql = 'SELECT * FROM usuario'
 
@@ -201,8 +195,7 @@ class GerenciarUsuarios{
             
         } finally {
 
-            this.fecharConexao() 
-            
+
         }
 
     }
@@ -221,7 +214,7 @@ class GerenciarUsuarios{
 
     async autenticarUser(login, senha) {
 
-            this.abrirconexao()
+            
         
             
             const sql = 'SELECT id, nome, login FROM usuario WHERE login = ? AND senha = ?'
@@ -230,11 +223,11 @@ class GerenciarUsuarios{
             
             if (results.length === 0) {
 
-                return { autenticado: false }
+                return { autenticado: false, usuario: 'Problema ao realizar autenticação.'}
 
             }else{
 
-                return { autenticado:true }
+                return { autenticado:true, usuario: results[0]}
             }
     
 

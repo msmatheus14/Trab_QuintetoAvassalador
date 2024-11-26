@@ -30,16 +30,20 @@ const bucarHotelUsuario = async function(req, res) {
 const alterarTipoUser =  async function (req, res) {
     
     const gerenciarUser = new GerenciarUsuarios
-    const {nome, tipo} = req.body
+    const {login, tipo} = req.body
 
-    let userTemp = await gerenciarUser.consultarUsuario(nome)
+    const validacao = await gerenciarUser.alterarUsuario(tipo, login)
     
-    if(!userTemp) {
-        console.log('Usuário não encontrado guerreiro!')
-    }else
+    if(validacao == true){
+
+        const userTemp = await gerenciarUser.consultarUsuario(login)
+        res.status(200).json(userTemp)
+
+    }
+    else
+    if(validacao == false)
     {
-        gerenciarUser.alterarUsuario(tipo, userTemp[0].id)
-        res.status(200).json(userTemp[0])
+        res.status(404).json({erro: 'Problema durante a alteração de usuário no banco'})
     }
 
 
@@ -60,6 +64,7 @@ const returnAllUser = function(req, res) {
 
     const gerenciarUser = new GerenciarUsuarios
     let arrayUser = gerenciarUser.getAllUsers()
+    console.log(arrayUser)
     res.status(200).json(arrayUser)
 
 }
