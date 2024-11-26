@@ -68,11 +68,11 @@ const returnAllUser = function(req, res) {
 const consultarUsuario = async function (req, res) {
 
     try {
-        const { nome } = req.body
+        const { login } = req.body
 
         const gerenciarUser = new GerenciarUsuarios()
 
-        const user = await gerenciarUser.consultarUsuario(nome)
+        const user = await gerenciarUser.consultarUsuario(login)
 
         console.log(user); 
 

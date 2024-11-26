@@ -11,16 +11,16 @@ class GerenciarUsuarios{
         
     }
 
-    async consultarUsuario(nome) {
+    async consultarUsuario(login) {
 
         this.abrirconexao()
 
         return new Promise((resolve, reject) => {
             
 
-            const sql = 'SELECT * FROM usuario where nome = ?'
+            const sql = 'SELECT * FROM usuario where login = ?'
     
-            this.connection.query(sql, [nome], (err, results) => {
+            this.connection.query(sql, [login], (err, results) => {
 
                 if (err) {
 
