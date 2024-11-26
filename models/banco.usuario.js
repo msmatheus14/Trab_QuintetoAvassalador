@@ -227,7 +227,7 @@ class GerenciarUsuarios{
             
         
             
-            const sql = 'SELECT id, nome, login FROM usuario WHERE login = ? AND senha = ?'
+            const sql = 'SELECT id, nome, login, tipo FROM usuario WHERE login = ? AND senha = ?'
             const [results] = await this.connection.promise().query(sql, [login, senha])
     
             
