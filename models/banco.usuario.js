@@ -18,23 +18,23 @@ class GerenciarUsuarios{
         return new Promise((resolve, reject) => {
             
 
-            const sql = 'SELECT * FROM usuario where nome = ?';
+            const sql = 'SELECT * FROM usuario where nome = ?'
     
             this.connection.query(sql, [nome], (err, results) => {
 
                 if (err) {
 
-                    console.log('Erro ao consultar usuário:', err.message);
+                    console.log('Erro ao consultar usuário:', err.message)
 
-                    reject(err);
+                    reject(err)
 
                 } else {
                    
-                    resolve(results);
+                    resolve(results)
                     
                 }
-            });
-        });
+            })
+        })
     }
 
     async adicionarUsuario(nome, login, senha, tipo){
@@ -42,7 +42,7 @@ class GerenciarUsuarios{
 
         this.abrirconexao()
 
-            const sql = 'insert into usuario (nome, login, senha, tipo) values (?, ?, ?, ?)';
+            const sql = 'insert into usuario (nome, login, senha, tipo) values (?, ?, ?, ?)'
 
             this.connection.query(sql, [nome, login, senha, tipo], (err, results) => {
 
@@ -51,7 +51,7 @@ class GerenciarUsuarios{
                     console.log('Erro ao adicionar usuário', err.message)
                 }
                 
-            });
+            })
 
             this.fecharConexao()
             
@@ -87,7 +87,6 @@ class GerenciarUsuarios{
 
     async excluirUsuario(id) {
 
-
         this.abrirconexao()
 
         const sql = 'DELETE FROM usuario WHERE id = ?'
@@ -98,22 +97,22 @@ class GerenciarUsuarios{
 
                 if (err) {
 
-                    reject(err); // Retorna erro em caso de falha
+                    reject(err)
 
                 } else if (results.affectedRows === 0) {
 
-                    resolve({ message: "Nenhum usuário encontrado com esses critérios." });
+                    resolve({ message: "Nenhum usuário encontrado com esses critérios." })
 
                 } else {
 
-                    resolve({ message: "Usuário excluído com sucesso." });
+                    resolve({ message: "Usuário excluído com sucesso." })
                 }
-            });
+            })
 
         }).finally(() => {
 
-            this.fecharConexao();
-        });
+            this.fecharConexao()
+        })
 
     }
 
@@ -135,14 +134,14 @@ class GerenciarUsuarios{
 
             if (err) {
 
-                console.error('Erro ao conectar ao banco de dados:', err.stack);
+                console.error('Erro ao conectar ao banco de dados:', err.stack)
 
-                return;
+                return
             }
 
-            console.log('Conexão estabelecida com sucesso. ID da conexão:', this.connection.threadId);
+            console.log('Conexão estabelecida com sucesso. ID da conexão:', this.connection.threadId)
 
-        });
+        })
 
         
 
@@ -156,17 +155,17 @@ class GerenciarUsuarios{
 
                 if (err) {
 
-                    console.error('Erro ao encerrar a conexão:', err.message);
+                    console.error('Erro ao encerrar a conexão:', err.message)
 
                 } else {
 
-                    console.log('Conexão encerrada com sucesso!');
+                    console.log('Conexão encerrada com sucesso!')
                 }
-            });
+            })
 
         } else {
 
-            console.error('Conexão não encontrada.');
+            console.error('Conexão não encontrada.')
         }
     }
 
@@ -175,7 +174,7 @@ class GerenciarUsuarios{
 
         try {
 
-            this.abrirconexao(); 
+            this.abrirconexao() 
             
             const sql = 'SELECT * FROM usuario'
 
@@ -190,7 +189,7 @@ class GerenciarUsuarios{
                 senha: x.senha,
                 tipo: x.tipo
 
-            }));
+            }))
 
             this.gravar(results)
             console.log('Usuários carregados com sucesso!')
@@ -202,7 +201,7 @@ class GerenciarUsuarios{
             
         } finally {
 
-            this.fecharConexao(); 
+            this.fecharConexao() 
             
         }
 
@@ -222,20 +221,20 @@ class GerenciarUsuarios{
 
     async autenticarUser(login, senha) {
 
-            this.abrirconexao();
+            this.abrirconexao()
         
             
-            const sql = 'SELECT id, nome, login FROM usuario WHERE login = ? AND senha = ?';
-            const [results] = await this.connection.promise().query(sql, [login, senha]);
+            const sql = 'SELECT id, nome, login FROM usuario WHERE login = ? AND senha = ?'
+            const [results] = await this.connection.promise().query(sql, [login, senha])
     
             
             if (results.length === 0) {
 
-                return { autenticado: false };
+                return { autenticado: false }
 
             }else{
 
-                return { autenticado:true };
+                return { autenticado:true }
             }
     
 

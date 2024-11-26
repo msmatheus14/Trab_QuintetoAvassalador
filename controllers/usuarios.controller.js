@@ -5,7 +5,6 @@ const {GerenciarHotel} = require('../models/banco.hotel')
 
 const criarUsuario = function(req, res) {
 
-    //O tipo do dado recebido guerreiro tem que ser numero e forma de strings
 
     const {nome, login, senha, tipo} = req.body
     
