@@ -3,10 +3,34 @@ let array_hotel = []
 
 class GerenciarHotel {
 
+    constructor(){
+
+        this.connection = mysql.createConnection({
+
+            host: 'mysql-quinteto-adm.alwaysdata.net', 
+            user: '386281',
+            password: 'quinteto_2024', 
+            database: 'quinteto-adm_3011'
+
+          })
+
+          this.connection.connect((err) => {
+
+            if (err) {
+
+                console.error('Erro ao conectar ao banco de dados:', err.stack);
+
+                return;
+            }
+
+            console.log('Conexão estabelecida com sucesso. ID da conexão:', this.connection.threadId);
+
+        });
+    }
+
 
     async consultarUserHotel(id_dono) {
 
-        this.abrirconexao()
 
         return new Promise((resolve, reject) => {
             
@@ -33,8 +57,7 @@ class GerenciarHotel {
 
 
     async adicionar(nome_hotel, id_dono) {
-
-        this.abrirconexao();
+;
     
         return new Promise((resolve, reject) => {
 
@@ -63,34 +86,14 @@ class GerenciarHotel {
 
         }).finally(() => {
 
-            this.fecharConexao();
+            
 
         });
     }
 
     abrirconexao(){
 
-        this.connection = mysql.createConnection({
-
-            host: 'mysql-quinteto-adm.alwaysdata.net', 
-            user: '386281',
-            password: 'quinteto_2024', 
-            database: 'quinteto-adm_3011'
-
-          })
-
-          this.connection.connect((err) => {
-
-            if (err) {
-
-                console.error('Erro ao conectar ao banco de dados:', err.stack);
-
-                return;
-            }
-
-            console.log('Conexão estabelecida com sucesso. ID da conexão:', this.connection.threadId);
-
-        });
+        
 
     }
 
@@ -120,7 +123,7 @@ class GerenciarHotel {
 
         try {
 
-            this.abrirconexao(); 
+; 
             
             const sql = 'SELECT * FROM  hotel'
 
@@ -146,7 +149,7 @@ class GerenciarHotel {
             
         } finally {
 
-            this.fecharConexao(); 
+             
             
         }
 
