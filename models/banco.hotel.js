@@ -23,7 +23,6 @@ class GerenciarHotel {
                 return;
             }
 
-            console.log('Conexão estabelecida com sucesso. ID da conexão:', this.connection.threadId);
 
         });
     }
